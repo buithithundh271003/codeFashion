@@ -14,6 +14,9 @@ import Login from '../customer/Auth/LoginForm'
 import RegisterForm from '../customer/Auth/RegisterForm'
 import PaymentSuccess from '../customer/components/PaymentSuccess/PaymentSuccess'
 import Profile from '../customer/components/Proflie/Profile'
+import Orderpay from '../customer/components/page/order'
+import OrderListpay from '../customer/components/page/orderlist'
+
 const CustomerRouter = () => {
   return (
     <div>
@@ -31,7 +34,10 @@ const CustomerRouter = () => {
         <Route path='/product/:productId' element={<ProductDetails/>}></Route>     
         <Route path='/checkout' element={<Checkout/>}/>
         <Route path={'/account/order'} element={<Order/>}></Route>
+        <Route path={'/orderpay'} element={<Orderpay/>}></Route>
+
         <Route path={'/account/order/:orderId'} element={<OrderDetail/>}></Route>
+
       </Routes>
       <div>
       <Footer/>

@@ -12,6 +12,8 @@ const authRouters = require("./routes/auth.route.js")
 
 app.use("/auth", authRouters);
 app.use("/api/users", userRouters);
+const orderpay = require("./routes/orderpay.js");
+app.use('/orderpay', orderpay);
 
 const adminProductRouters = require("./routes/adminProduct.route.js");
 app.use("/api/admin/products", adminProductRouters);
