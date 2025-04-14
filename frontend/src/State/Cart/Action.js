@@ -4,6 +4,8 @@ import { api } from "../../config/apiConfig"
 export const addItemToCart = (reqData) => async (dispatch) => {
     dispatch({ type: ADD_ITEM_TO_CART_REQUEST })
     try {
+        console.log("thanh cong ");
+
         const { data } = await api.put("/api/cart/add", reqData);
         dispatch({ type: ADD_ITEM_TO_CART_SUCCESS, payload: data });
         console.log("thanh cong ", data)

@@ -15,6 +15,8 @@ export const findProducts = ()=>async(dispatch)=>{
     }
 }
 export const findProductsById = (reqData)=>async(dispatch)=>{
+    console.log("llllllll", reqData);
+
     const {productId} = reqData;
     dispatch({type: FIND_PRODUCT_BY_ID_REQUEST})
     try {

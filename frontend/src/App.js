@@ -8,14 +8,10 @@ function App() {
   return (
     <div className="">
       <Routes>
-      <Route path='/*' element={<CustomerRouter/>}></Route>
-      <Route path="/admin/*" element={<AdminRouter/>}></Route>
+        <Route path='/*' element={<CustomerRouter/>}></Route>
+        <Route path="/admin/*" element={<AdminRouter/>}></Route>
       </Routes>
-       
-    
-      
     </div>
-
   );
 }
 

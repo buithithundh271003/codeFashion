@@ -7,6 +7,7 @@ async function createProduct(reqData){
     author: reqData.author,
     description: reqData.description,
     price: reqData.price,
+    discount:reqData.discount,
     quantity: reqData.quantity,
     sizes: reqData.sizes,         // Should be an array like ['S', 'M', 'L']
     colors: reqData.colors,       // Should be an array like ['den', 'trang']
@@ -28,8 +29,7 @@ async function updateProduct(productId, reqData){
     return await Product.findByIdAndUpdate(productId, reqData);
 }
 async function findProductById(productId){
-    const product = await Product.findById(productId)
-    .populate("category").exec();
+    const product = await Product.findById(productId).exec();
     if(!product){
         throw new Error("Product not found with id");
 

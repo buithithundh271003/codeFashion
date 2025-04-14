@@ -334,6 +334,14 @@ const ProductAdd = () => {
               >
                 <InputNumber min={0} style={{ width: '100%' }} />
               </Form.Item>
+              <Form.Item
+                name="discount"
+                label="discount"
+                rules={[{ required: true, message: 'Please input your discount!' }]}
+              >
+                <InputNumber min={0} style={{ width: '100%' }} />
+              </Form.Item>
+       
        
 
             

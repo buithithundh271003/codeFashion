@@ -36,8 +36,7 @@ app.use("/api/ratings", ratingRouter);
 const adminOrderRouter = require("./routes/adminOrder.route.js");
 app.use("/api/admin/orders", adminOrderRouter);
 
-const paymentRouter = require("./routes/payments.route.js");
-app.use("/api/payments", paymentRouter);
+
 const image = require("./routes/upload.js");
 app.use("/api/images", image);
 module.exports = app;

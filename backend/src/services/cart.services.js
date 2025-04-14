@@ -40,23 +40,37 @@ const findUserCart = async (userId)=>{
 }
 async function addCartItem(userId, req){
     try {
+        console.log("peishiqiu",req);
         // console.log(userId)
         const cart = await Cart.findOne({user:userId});
+        console.log("id",cart._id);
+
         const product = await Product.findById(req.productId);
+        console.log("id",product._id);
+
         const isPresent = await CartItem.findOne({cart:cart._id, product: product._id, userId});
-        // console.log(isPresent);
+
+        console.log(isPresent);
         if(!isPresent){
+            console.log("cảt ne");
             const cartItem = new CartItem({
                 product:product._id,
                 cart: cart._id,
                 userId,
-                quanity: 1,
+                quanity: req.quantity,
+                colors:req.colors,
                 price: product.price,
                 discount: product.discount
             })
             const creatCartItem = await cartItem.save();
             cart.cartItem.push(creatCartItem);
             return "Item added to cart"
+        }
+        else {
+        
+            isPresent.quanity += req.quantity; // Cộng dồn
+            await isPresent.save();
+       
         }
     } catch (error) {
         throw new Error(error.message)

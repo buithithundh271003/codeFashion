@@ -20,12 +20,10 @@ const productSchema = new Schema({
     },
     quantity:{
         type: Number,
-        required: true,
     },
     sizes: [{
         type: String,
         enum: ['S', 'M', 'L', 'XL'],
-        required: true
     }],
     colors: [{
         type: String,
@@ -54,6 +52,10 @@ const productSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'reviews'
     }],
+    discount:{
+        type: Number,
+        require: true
+    },
     numRatings:{
         type: Number,
         default: 0
