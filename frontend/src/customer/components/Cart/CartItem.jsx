@@ -7,7 +7,7 @@ import { removeCartItem, updateCartItem } from '../../../State/Cart/Action';
 import Swal from 'sweetalert2'
 const CartItem = ({item}) => {
     // const {item} = props;
-    console.log(item)
+    // console.log(item)
     const handleRemoveCartItem = ()=>{
         dispatch(removeCartItem(item?._id));
         const Toast = Swal.mixin({
@@ -33,12 +33,12 @@ const CartItem = ({item}) => {
         console.log(data, item)
         dispatch(updateCartItem(data));
     }
-    console.log(item)
+    // console.log(item)
   return (
     <div className='p-5 shadow-lg border rounded-md'>
         <div className="flex items-center">
             <div className='w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem]'>
-                <img className='w-full h-full object-cover object-top' src={item?.product?.imageUrl} alt="" />
+                <img className='w-full h-full object-cover object-top' src={item?.product?.images[0]?.thumbUrl} alt="" />
             </div>
             <div className='ml-5 space-y-1'>
                 <p className='font-semibold'>{item?.product?.title}</p>

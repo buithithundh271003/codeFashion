@@ -2,7 +2,7 @@ import React from 'react'
  
 const CartItemCheckout = ({item}) => {
  
-    console.log(item)
+    // console.log(item)
    
    
   return (

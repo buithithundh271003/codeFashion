@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect ,useState} from 'react'
 import AddressCard from '../AddressCard/AddressCard'
 
 import {useDispatch, useSelector, } from "react-redux"
@@ -15,14 +15,16 @@ const OrderSumary = () => {
   const searchParams = new URLSearchParams(location.search);
   const orderId = searchParams.get("order_id")
   console.log(order)
+  const [paymentMethod, setPaymentMethod] = useState(null);
  
+   const handlePaymentChange = (e) => {
+     console.log(e);
+     setPaymentMethod(e);
+   }
   useEffect(()=>{
     dispatch(getOrderById(orderId))
   },[orderId])
-  const handleThanhToan = ()=>{
-    dispatch(creatPayment(orderId))
-    navigate(`/success/?orderId=${orderId}`)
-  }
+ 
   console.log(order.order)
   let totalPrice = 0;
   let totalDiscount = 0;
@@ -34,6 +36,18 @@ const OrderSumary = () => {
     })
   // }
   //  console.log(order.order.orderItems[0].product)
+   const handleThanhToan = ()=>{
+    if(paymentMethod==='ck'){
+      dispatch(creatPayment(orderId))
+      navigate(`/orderpay/?orderId=${orderId}&totalAmount=${Number(totalPrice)}`)
+    }
+    else{
+       dispatch(creatPayment(orderId))
+      navigate(`/success/?orderId=${orderId}`)
+
+    }
+   
+  }
   return (
     <div>
       <div className='p-5 shadow-lg rounded-s-md border'>
@@ -68,6 +82,20 @@ const OrderSumary = () => {
                 <span>Tổng tiền</span>
                 <span className='text-green-600 ' >{totalPrice-totalDiscount}đ</span>
             </div>
+              <div className='flex justify-between pt-3 font-bold'>
+              <span>Hình thức</span>
+              <div className='text-green-600'>
+                <select
+                  className='form-select border-0 bg-transparent'
+                  onChange={(e) => handlePaymentChange(e.target.value)}
+                >
+                  <option value="">Chọn phương thức</option>
+                  <option value="gh">Giao hàng</option>
+                  <option value="ck">Chuyển khoản</option>
+                </select>
+              </div>
+            </div>
+
             </div>
             <button
             onClick={handleThanhToan}
