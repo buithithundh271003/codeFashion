@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 
-import img from "../../../organic-1.0.0/images/category-thumb-1.jpg"
 
 
 const CategorySection = () => {

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux"
 import HomeSectionCarosel from '../../components/HomSectionCarosel/HomeSectionCarosel'
 import { findProducts } from '../../../State/Product/Action'
 import HomeProduct from '../../components/ProductDetails/HomProduct'
-import BannerSection from '../../components/banner/index'
+// import BannerSection from '../../components/banner/index'
 import CategorySection from '../../components/category/index'
 
 const HomePage = () => {
@@ -27,7 +27,6 @@ const HomePage = () => {
     <div>
        {/* <Slider/> */}
        <HomeProduct data={truyen}/>
-       <BannerSection></BannerSection>
        <CategorySection></CategorySection>
        <div className='space-y-10 py-20 flex flex-col justify-center px-5 lg:px-10'>
         <HomeSectionCarosel data={truyendai} sectionName={'Truyện dài'} danhmuc={"truyendai"}/>

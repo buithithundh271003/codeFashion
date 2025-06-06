@@ -1,17 +1,12 @@
-
 import { Fragment, useEffect, useState } from 'react'
-import { Dialog, Disclosure,  Transition } from '@headlessui/react'
+import { Dialog, Disclosure, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import ProductCard from './ProductCart';
-import { filters  } from './filterData';
+import { filters } from './filterData';
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom";
 import { findProducts } from '../../../State/Product/Action';
- 
-
-
- 
 
 export default function Product() {
   const location = useLocation();
@@ -24,17 +19,14 @@ export default function Product() {
   const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   
-  const handleSubmitSearch = (e)=>{
+  const handleSubmitSearch = (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
-    console.log(form.get("ten"));
     setSearch(form.get("ten"))
   }
   
   useEffect(() => {
-    
     dispatch(findProducts());
-    console.log(product.products)
   }, [price, theloai])
 
   return (
@@ -80,8 +72,6 @@ export default function Product() {
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
-
-
                     {filters.map((section) => (
                       <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                         {({ open }) => (
@@ -131,76 +121,115 @@ export default function Product() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto  px-4 sm:px-6 lg:px-20">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-
-            <form onSubmit={handleSubmitSearch} class="flex items-center max-w-sm mx-auto">
-              <label for="simple-search" class="sr-only">Search</label>
-              <div class="relative w-full">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
-                  </svg>
-                </div>
-                <input name='ten' type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tên sản phẩm muốn tìm..." required />
+        <main className="mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb and search */}
+          <div className="border-b border-gray-200 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center text-sm text-gray-500">
+                <span>Home</span>
+                <span className="mx-2">/</span>
+                <span>Shop</span>
               </div>
-              <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                </svg>
-                <span class="sr-only">Search</span>
-              </button>
-            </form>
-
-            <div className="flex items-center">
-
-
-              <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-                <span className="sr-only">View grid</span>
-                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                onClick={() => setMobileFiltersOpen(true)}
-              >
-                <span className="sr-only">Filters</span>
-                <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
+              
+              <form onSubmit={handleSubmitSearch} className="flex items-center">
+                <input 
+                  name="ten"
+                  type="text" 
+                  placeholder="Search..." 
+                  className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400"
+                />
+              </form>
             </div>
           </div>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
-            <h2 id="products-heading" className="sr-only">
-              Products
-            </h2>
-
-            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
-              {/* Filters */}
-
-
-              {/* Product grid */}
-              <div className="lg:col-span-3 w-full">
-                <div className='flex flex-wrap justify-center bg-white py-5'>
-                  {product.products && product.products?.map((item) => {
-                    let key = "/" + item.danhmuc;
-                    console.log(item?.title.includes(search))
-                    if (key === location.pathname && item?.title.includes(search)) {
-                      return <ProductCard product={item} />
-                    }
-                  })}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 pt-6">
+            {/* Filters sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="font-medium text-gray-900">Filter By Pricing</h3>
+                <div className="pt-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500">Pricing</span>
+                    <span className="text-sm font-medium">$10 - $400</span>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="10" 
+                    max="400" 
+                    className="w-full mt-2"
+                  />
                 </div>
+              </div>
 
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="font-medium text-gray-900">Categories</h3>
+                {/* Categories would go here */}
+              </div>
+
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="font-medium text-gray-900">Size</h3>
+                <div className="flex space-x-2 mt-2">
+                  {['S', 'M', 'L', 'XL'].map((size) => (
+                    <button 
+                      key={size}
+                      className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100"
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="font-medium text-gray-900">Brands</h3>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {['Closed', 'Good', 'Human', 'D&G', 'Disc', 'Versace'].map((brand) => (
+                    <span key={brand} className="text-sm text-gray-500">
+                      {brand}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </section>
-          <section className='w-full px=[3.6rem]'>
-            <div className='px-4 py-5 flex justify-center'>
-             
 
+            {/* Product grid */}
+            <div className="lg:col-span-3">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-sm text-gray-500">{product.products?.length} products</span>
+                <div className="flex items-center">
+                  <span className="text-sm text-gray-500 mr-2">Sort by</span>
+                  <select className="border border-gray-300 rounded text-sm px-2 py-1 focus:outline-none">
+                    <option>Default Sorting</option>
+                  </select>
+                </div>
+              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {product.products && product.products.map((item) => (
+    <div key={item.id} className="border border-gray-200 rounded p-4 hover:shadow-md transition-shadow">
+      {/* Product Image - Sử dụng hình ảnh thực tế từ dữ liệu */}
+      <div className="relative h-48 mb-3 overflow-hidden">
+        {item.imageUrl ? (
+          <img 
+            src={item.imageUrl} 
+            alt={item.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="bg-gray-100 w-full h-full flex items-center justify-center">
+            <span className="text-gray-400">No Image</span>
+          </div>
+        )}
+      </div>
+      
+      <div className="space-y-1">
+        <h3 className="text-sm font-medium text-gray-900 line-clamp-1">{item.title}</h3>
+        <p className="text-sm font-medium text-gray-900 mt-1">${item.price.toFixed(2)}</p>
+      </div>
+    </div>
+  ))}
+</div>
             </div>
-
-          </section>
+          </div>
         </main>
       </div>
     </div>
