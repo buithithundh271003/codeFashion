@@ -176,9 +176,10 @@ const Delivery = () => {
       sodienthoai: data.get("sodienthoai"),
       location: location, // thêm vị trí (lat, lng) vào đơn hàng
     };
-    const orderData = { address, navigate };
+    const orderStatus="PROCESSING"
+    const orderData = { address,orderStatus, navigate };
     dispatch(createOrder(orderData));
-    console.log(order);
+    console.log(orderData);
   };
 
   return (

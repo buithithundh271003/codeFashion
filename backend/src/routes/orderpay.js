@@ -3,6 +3,7 @@
  */
 
 
+const Order = require("../models/order.model.js")
 
 let express = require('express');
 let router = express.Router();
@@ -207,32 +208,165 @@ router.post('/create_payment_url', function (req, res, next) {
 //     return res.json({ url: vnpUrl,orderId:orderId });
 // });
 
-router.get('/vnpay_return', function (req, res, next) {
-    let vnp_Params = req.query;
+// router.get('/vnpay_return', function (req, res, next) {
+//     let vnp_Params = req.query;
 
-    let secureHash = vnp_Params['vnp_SecureHash'];
+//     let secureHash = vnp_Params['vnp_SecureHash'];
 
-    delete vnp_Params['vnp_SecureHash'];
-    delete vnp_Params['vnp_SecureHashType'];
+//     delete vnp_Params['vnp_SecureHash'];
+//     delete vnp_Params['vnp_SecureHashType'];
 
-    vnp_Params = sortObject(vnp_Params);
+//     vnp_Params = sortObject(vnp_Params);
 
-    let config = require('config');
-    let tmnCode = config.get('vnp_TmnCode');
-    let secretKey = config.get('vnp_HashSecret');
+//     let config = require('config');
+//     let tmnCode = config.get('vnp_TmnCode');
+//     let secretKey = config.get('vnp_HashSecret');
 
-    let querystring = require('qs');
-    let signData = querystring.stringify(vnp_Params, { encode: false });
-    let crypto = require("crypto");     
-    let hmac = crypto.createHmac("sha512", secretKey);
-    let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");     
+//     let querystring = require('qs');
+//     let signData = querystring.stringify(vnp_Params, { encode: false });
+//     let crypto = require("crypto");     
+//     let hmac = crypto.createHmac("sha512", secretKey);
+//     let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");     
 
-    if(secureHash === signed){
-        //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+//     if(secureHash === signed){
+//         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
 
-        res.render('success', {code: vnp_Params['vnp_ResponseCode']})
-    } else{
-        res.render('success', {code: '97'})
+//         res.render('success', {code: vnp_Params['vnp_ResponseCode']})
+//     } else{
+//         res.render('success', {code: '97'})
+//     }
+// });
+// router.get('/vnpay_return',async function (req, res, next) {
+//     let vnp_Params = req.query;
+
+//     let secureHash = vnp_Params['vnp_SecureHash'];
+
+//     delete vnp_Params['vnp_SecureHash'];
+//     delete vnp_Params['vnp_SecureHashType'];
+
+//     vnp_Params = sortObject(vnp_Params);
+
+//     let config = require('config');
+//     let tmnCode = config.get('vnp_TmnCode');
+//     let secretKey = config.get('vnp_HashSecret');
+
+//     let querystring = require('qs');
+//     let signData = querystring.stringify(vnp_Params, { encode: false });
+//     let crypto = require("crypto");
+//     let hmac = crypto.createHmac("sha512", secretKey);
+//     let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
+
+//     if (secureHash === signed) {
+//         // Trả kết quả thành công dưới dạng JSON
+//         res.json({ code: vnp_Params['vnp_ResponseCode'], message: 'Checksum hợp lệ' });
+//     } else {
+//         // Trả kết quả lỗi dưới dạng JSON
+//         res.json({ code: '97', message: 'Sai checksum' });
+//     }
+//     if (vnp_Params.vnp_ResponseCode !== '00') {
+//       await Order.findByIdAndUpdate(vnp_Params.vnp_TxnRef, {
+//         'paymentDetails.paymentStatus': 'FAILED',
+//         'paymentDetails.errorMessage': `Mã lỗi: ${vnp_Params.vnp_ResponseCode}`
+//       });
+//       return res.json({ 
+//         code: vnp_Params.vnp_ResponseCode, 
+//         message: 'Thanh toán thất bại' 
+//       });
+//     }
+//     // Cập nhật đơn hàng thành công
+//     const updatedOrder = await Order.findByIdAndUpdate(
+//       vnp_Params.vnp_TxnRef,
+//       {
+//         'paymentDetails': {
+//           paymentMethod: 'VNPAY',
+//           paymentStatus: 'PAID',
+//           transactionId: vnp_Params.vnp_TransactionNo,
+//           bankCode: vnp_Params.vnp_BankCode,
+//           paymentDate: new Date(),
+//           amount: vnp_Params.vnp_Amount / 100
+//         },
+//         'orderStatus': 'PROCESSING'
+//       },
+//       { new: true }
+//     );
+//     if (!updatedOrder) {
+//       return res.status(404).json({ 
+//         code: '01', 
+//         message: 'Không tìm thấy đơn hàng' 
+//       });
+//     }
+
+//     // Trả kết quả thành công
+//     return res.json({
+//       code: '00',
+//       message: 'Thanh toán thành công',
+//       data: {
+//         orderId: updatedOrder._id,
+//         amount: updatedOrder.paymentDetails.amount,
+//         transactionNo: updatedOrder.paymentDetails.transactionId
+//       }
+//     });
+// });
+
+router.get('/vnpay_return', async function (req, res, next) {
+    try {
+        let vnp_Params = req.query;
+        let secureHash = vnp_Params['vnp_SecureHash'];
+
+        delete vnp_Params['vnp_SecureHash'];
+        delete vnp_Params['vnp_SecureHashType'];
+
+        vnp_Params = sortObject(vnp_Params);
+
+        let config = require('config');
+        let tmnCode = config.get('vnp_TmnCode');
+        let secretKey = config.get('vnp_HashSecret');
+
+        let querystring = require('qs');
+        let signData = querystring.stringify(vnp_Params, { encode: false });
+        let crypto = require("crypto");
+        let hmac = crypto.createHmac("sha512", secretKey);
+        let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest("hex");
+
+        // First check the secure hash
+        if (secureHash !== signed) {
+            return res.redirect('/payment/failed?reason=invalid_checksum');
+        }
+
+        // Then check the response code
+        if (vnp_Params.vnp_ResponseCode !== '00') {
+            await Order.findByIdAndUpdate(vnp_Params.vnp_TxnRef, {
+                'paymentDetails.paymentStatus': 'FAILED',
+                'paymentDetails.errorMessage': `Mã lỗi: ${vnp_Params.vnp_ResponseCode}`
+            });
+            return res.redirect(`/payment/failed?reason=payment_failed&code=${vnp_Params.vnp_ResponseCode}`);
+        }
+
+        // If everything is OK, process the successful payment
+        const orderId = vnp_Params.vnp_TxnRef;
+        await Order.findByIdAndUpdate(
+            orderId,
+            {
+                'paymentDetails': {
+                    paymentMethod: 'VNPAY',
+                    paymentStatus: 'PAID',
+                    transactionId: vnp_Params.vnp_TransactionNo,
+                    bankCode: vnp_Params.vnp_BankCode,
+                    paymentDate: new Date(),
+                    amount: vnp_Params.vnp_Amount / 100
+                },
+                'orderStatus': 'PROCESSING'
+            },
+            { new: true }
+        );
+
+        // Redirect to success page with orderId
+        return res.redirect(`http://localhost:3000/success/?orderId=${orderId}`);
+ 
+
+    } catch (error) {
+        console.error('VNPay return error:', error);
+        return res.redirect('/payment/failed?reason=server_error');
     }
 });
 

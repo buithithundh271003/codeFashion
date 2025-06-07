@@ -182,6 +182,8 @@ import Dashboard from './components/Dashboard';
 import AdminDashboard from './components/Dashboard';
 import CategoryAdd from './components/categoryAdd';
 import CategoryList from './components/CategoryTable';
+import ReturnRequestAdmin from './components/ReturnRequestAdmin';
+
 
 const { Content, Sider } = Layout;
 
@@ -206,6 +208,9 @@ const items = [
   ]),
   getItem('Orders', '7', <TagOutlined />, [
     getItem(<Link to="/admin/orders">View Orders</Link>, '8'),
+  ]),
+   getItem('Return', '8', <TagOutlined />, [
+    getItem(<Link to="/admin/returns">View Returns</Link>, '8'),
   ]),
   getItem(<Link to="/">Logout</Link>, '9', <LogoutOutlined />),
 ];
@@ -238,6 +243,7 @@ const AdminLayout = ({ children }) => {
               <Route path="customers" element={<CustomerTable />} />
               <Route path="category/add" element={<CategoryAdd/>}/>
               <Route path="category/list" element={<CategoryList/>}/>
+              <Route path="returns" element={<ReturnRequestAdmin/>}/>
 
               {children}
             </Routes>

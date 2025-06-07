@@ -61,7 +61,7 @@ const HomeSectionCard = ({product}) => {
            
                                    <div class="bg-white rounded-lg shadow-lg p-6   ">
                           <div class="relative overflow-hidden">
-                              <img class="object-cover w-full h-full" src= {product.imageUrl} alt="Product"/>
+                              <img class="object-cover w-full h-full" src= {product?.images[0]?.thumbUrl} alt="Product"/>
                               <div class="absolute inset-0 bg-black opacity-30"></div>
                               <div class="absolute inset-0 flex items-center justify-center">
                                   <button class="bg-white text-gray-900 py-2 px-6 rounded-full font-bold hover:bg-gray-300" onClick={()=>navigate(`/product/${product?._id}`)}>View Product</button>

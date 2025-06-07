@@ -27,6 +27,9 @@ app.use("/api/cart_items", cartItemRouter);
 const orderRouter = require("./routes/order.route.js");
 app.use("/api/orders", orderRouter);
 
+const refundRouter = require("./routes/refund.js");
+app.use("/api/refund", refundRouter);
+
 const reviewRouter = require("./routes/review.route.js");
 app.use("/api/reviews", reviewRouter);
 
