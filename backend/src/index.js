@@ -33,6 +33,9 @@ app.use("/api/refund", refundRouter);
 const reviewRouter = require("./routes/review.route.js");
 app.use("/api/reviews", reviewRouter);
 
+const mailRouter = require("./routes/mail.js");
+app.use("/api/mail", mailRouter);
+
 const categoryRouter= require("./routes/category.route.js")
 app.use("/api/category", categoryRouter)
 const ratingRouter = require("./routes/rating.route.js");

@@ -264,7 +264,7 @@ import AddressCard from '../AddressCard/AddressCard';
 import CartItemCheckout from '../Cart/CartItemCheckout';
 import { Card, Typography, Divider, Select, Button, Row, Col, message } from 'antd';
 import { getUSer } from '../../../State/Auth/Action';
-
+import { getCart } from '../../../State/Cart/Action';
 const { Title, Text } = Typography;
 const { Option } = Select;
 
@@ -274,6 +274,10 @@ const OrderSummary = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
+  const { cart } = useSelector(store => store);
+   useEffect(() => {
+    dispatch(getCart());
+  }, [dispatch]);
 
   // Gọi API lấy thông tin user
   useEffect(() => {
@@ -306,8 +310,10 @@ const OrderSummary = () => {
   const handlePaymentChange = (value) => {
     setPaymentMethod(value);
   };
+      console.log("---------------",cart);
 
-  const handleThanhToan = () => {
+
+  const handleThanhToan = async() => {
     if (!paymentMethod) {
       message.warning('Vui lòng chọn phương thức thanh toán!');
       return;
@@ -317,15 +323,47 @@ const OrderSummary = () => {
     dispatch(creatPayment(orderId));
 
     // Lấy userId từ Redux store
-    console.log(auth.user?._id);
     const userId = auth.user._id;
 
     if (paymentMethod === 'ck') {
       // CK: chuyển hướng đến trang orderpay
       navigate(`/orderpay/?orderId=${orderId}&totalAmount=${Number(totalPrice - totalDiscount)}&userid=${userId}`);
+        try {
+      const response = await fetch("http://localhost:4000/api/mail/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: auth.user.email, // Lấy từ state hoặc profile người dùng
+          cartItems: cart.cartItem,
+          total: totalPrice - totalDiscount,
+        }),
+      });
+
+      const data = await response.json();
+    
+    } catch (err) {
+      console.error(err);
+    }
+
     } else {
       // GH: chuyển hướng đến success
       navigate(`/success/?orderId=${orderId}`);
+       try {
+      const response = await fetch("http://localhost:4000/api/mail/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: auth.user.email, // Lấy từ state hoặc profile người dùng
+          cartItems: cart.cartItem,
+          total: totalPrice - totalDiscount,
+        }),
+      });
+
+      const data = await response.json();
+    
+    } catch (err) {
+      console.error(err);
+    }
     }
   };
 
