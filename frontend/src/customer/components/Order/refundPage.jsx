@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Typography, Box, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
+import { API_BASE_URL } from "../../../config/apiConfig"
 
 const ReturnRequestForm = ({ orderItem, onClose }) => {
   const [reason, setReason] = useState('');
@@ -25,7 +26,7 @@ const ReturnRequestForm = ({ orderItem, onClose }) => {
         description
       };
 
-      const response = await axios.post('http://localhost:4000/api/refund', requestData, {
+      const response = await axios.post(`${API_BASE_URL}/api/refund`, requestData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

@@ -9,14 +9,13 @@ const CartItemCheckout = ({item}) => {
     <div className='p-5 shadow-lg border rounded-md'>
         <div className="flex items-center">
             <div className='w-[5rem] h-[5rem] lg:w-[9rem] lg:h-[9rem]'>
-                <img className='w-full h-full object-cover object-top' src={item.product?.imageUrl} alt="" />
+                <img className='w-full h-full object-cover object-top' src={item.product?.images[0].response?.urls?.[0]?.url} alt="" />
             </div>
             <div className='ml-5 space-y-1'>
                 <p className='font-semibold'>{item?.title}</p>
                 <p className='opacity-70'>{item?.title}</p>
             <div className='flex space-x-5 items-center text-gray-900 pt-6'>
                 <p className='font-semibold'>{item?.price} đ</p>
-                <p className='text-green-600 font-semibold'>Giảm giá: -{item?.discount}đ</p>
             </div>
             </div>
           

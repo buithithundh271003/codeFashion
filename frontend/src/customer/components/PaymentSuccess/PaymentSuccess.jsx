@@ -40,13 +40,13 @@ const PaymentSuccess = () => {
             sx={{alignItems:"center", justifyContent:"space-around"}}
             >
                 <Grid item xs={6}>
+                    {console.log(item?.product?.images[0]?.thumbUrl)}
                     <div className='flex items-center'>
-                    <img className='w-[5rem] h-[5rem] object-cover object-top'src={item?.product?.imageUrl} alt="" />
+                    <img className='w-[5rem] h-[5rem] object-cover object-top'src={item?.product?.images[0].response?.urls?.[0]?.url} alt="" />
                     <div className='  font-semibold space-x-5 text-lg'>
                     <span className='text-lg'>{item.title}</span>
                     <span>Gia:{item.price}</span>
                     <span>So luong:{item.quanity}</span>
-                    <span>Giamgia:-{item.discount}</span>    
                     </div>
                     </div>
                 </Grid>

@@ -2,6 +2,8 @@ const cartService = require("../services/cart.services.js");
 const Address = require("../models/address.model.js")
 const OrderItem = require("../models/orderItem.model.js")
 const Order = require("../models/order.model.js")
+const Product = require("../models/product.model.js")
+
 async function createOrder(user, shippAddress) {
     console.log("gg", shippAddress)
     let address;
@@ -29,6 +31,15 @@ async function createOrder(user, shippAddress) {
         })
         const creatOrderItem = await orderItem.save();
         orderItems.push(creatOrderItem);
+        const product = await Product.findById(item.product);
+        if (product) {
+            if (product.quantity >= item.quanity) {
+                product.quantity -= item.quanity;
+                await product.save();
+            } else {
+                throw new Error(`Sản phẩm ${product.title} không đủ hàng trong kho.`);
+            }
+        }
     }
     const createOrder = new Order({
         user,

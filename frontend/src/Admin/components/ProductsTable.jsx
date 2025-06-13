@@ -41,7 +41,7 @@ const ProductsTable = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <Avatar src={row.images[0]?.thumbUrl || row.images[0]?.response?.thumbUrl}></Avatar>
+                <Avatar src={row.images[0]?.response?.urls?.[0]?.url || row.images[0]?.response?.urls?.[0]?.url}></Avatar>
               </TableCell>
               <TableCell component="th" scope="row">
                 {row.title}

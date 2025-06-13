@@ -12,16 +12,22 @@ const HomePage = () => {
   useEffect(()=>{
     dispatch(findProducts());
   },[])
-  // console.log(product?.products)
+  console.log(product?.products)
    const truyen = product.products;
   const truyendai = [];
   const truyenngan = [];
   const truyenthieunhi = [];
   console.log( truyen[0])
   for(let i = 0; i <truyen.length; i++){
-    if(truyen[i].danhmuc ==="truyendai") truyendai.push(truyen[i]);
-    if(truyen[i].danhmuc ==="truyenngan") truyenngan.push(truyen[i]);
-    if(truyen[i].danhmuc ==="truyenthieunhi") truyenthieunhi.push(truyen[i]);
+       truyendai.push(truyen[i]);
+  }
+    for(let i = 3; i <truyen.length-1; i++){
+    truyenngan.push(truyen[i]);
+  }
+  console.log(truyendai,truyenngan)
+
+  for(let i = 2; i <truyen.length-3; i++){
+     truyenthieunhi.push(truyen[i]);
   }
   return (
     <div>
@@ -31,9 +37,9 @@ const HomePage = () => {
        <CategorySection></CategorySection>
 
        <div className='space-y-10 py-20 flex flex-col justify-center px-5 lg:px-10'>
-        <HomeSectionCarosel data={truyendai} sectionName={'Top sản phẩm bán chạy'} danhmuc={"truyendai"}/>
+        <HomeSectionCarosel data={truyendai} sectionName={'Top sản phẩm bán chạy'}/>
         <HomeSectionCarosel data={truyenngan}  sectionName={'Bộ sưu tập mới'} danhmuc={"truyenngan"}/>
-        <HomeSectionCarosel data={truyenthieunhi}  sectionName={'Truyện thiếu nhi'} danhmuc={"truyenthieunhi"}/>
+        <HomeSectionCarosel data={truyenthieunhi}  sectionName={'Hàng mới về'} danhmuc={"truyenthieunhi"}/>
        </div>
     </div>
 

@@ -63,6 +63,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Radio, Button, Typography, Card, message } from 'antd';
+import { API_BASE_URL } from "../../../config/apiConfig"
 
 const { Title } = Typography;
 
@@ -76,7 +77,7 @@ const PaymentForm = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post('http://localhost:4000/orderpay/create_payment_url', {
+      const res = await axios.post(`${API_BASE_URL}/orderpay/create_payment_url`, {
         amount,
         bankCode,
         language,

@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { format } from 'date-fns';
+import { API_BASE_URL } from "../../config/apiConfig"
 
 const ReturnRequestAdmin = () => {
   const [requests, setRequests] = useState([]);
@@ -28,7 +29,7 @@ const ReturnRequestAdmin = () => {
       setError(null);
       const token = localStorage.getItem('jwt');
       
-      const response = await axios.get('http://localhost:4000/api/refund', {
+      const response = await axios.get(`${API_BASE_URL}/api/refund`, {
         headers: { 'Authorization': `Bearer ${token}` },
         params: {
           status: filterStatus !== 'all' ? filterStatus : undefined,
@@ -48,7 +49,7 @@ const ReturnRequestAdmin = () => {
     try {
       const token = localStorage.getItem('jwt');
       const response = await axios.put(
-        `http://localhost:4000/api/refund/${selectedRequest._id}/status`,
+        `${API_BASE_URL}/api/refund/${selectedRequest._id}/status`,
         { status },
         { headers: { 'Authorization': `Bearer ${token}` } }
       );

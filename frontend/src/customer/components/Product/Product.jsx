@@ -122,8 +122,6 @@ export default function Product() {
   };
 
   const filteredProducts = getFilteredProducts();
-
-  // Load initial filters from URL
   useEffect(() => {
     if (search) setSearchQuery(search);
     if (price) {
@@ -132,8 +130,6 @@ export default function Product() {
     }
     if (size) setSelectedSizes(size.split(","));
   }, [location.search]);
-
-  // Fetch products when filters change
   useEffect(() => {
     const params = {
       category,
@@ -193,11 +189,11 @@ export default function Product() {
               {/* Filters sidebar */}
               <div className="hidden lg:block">
                 <div className="space-y-6 border-b border-gray-200 pb-6">
-                  <h3 className="font-medium text-gray-900">Filter By Price</h3>
+                  <h3 className="font-medium text-gray-900">Lọc theo giá</h3>
                   <div className="pt-4 space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">Price range</span>
-                      <span className="text-sm font-medium">${priceRange[0].toLocaleString()} - ${priceRange[1].toLocaleString()}</span>
+                      <span className="text-sm text-gray-500">Khoảng giá</span>
+                      <span className="text-sm font-medium">{priceRange[0].toLocaleString()} - {priceRange[1].toLocaleString()}</span>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <input
@@ -213,7 +209,7 @@ export default function Product() {
                         value={priceRange[1]}
                         onChange={(e) => handlePriceChange(e, 1)}
                         min={priceRange[0]}
-                        max="1000000"
+                        max="10000000"
                         className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
                       />
                     </div>
@@ -221,7 +217,7 @@ export default function Product() {
                       <input 
                         type="range" 
                         min="0" 
-                        max="1000000" 
+                        max="10000000" 
                         value={priceRange[0]}
                         onChange={(e) => handlePriceChange(e, 0)}
                         className="w-full mt-2 accent-indigo-600"
@@ -229,7 +225,7 @@ export default function Product() {
                       <input 
                         type="range" 
                         min="0" 
-                        max="1000000" 
+                        max="10000000" 
                         value={priceRange[1]}
                         onChange={(e) => handlePriceChange(e, 1)}
                         className="w-full mt-2 accent-indigo-600"
@@ -247,19 +243,16 @@ export default function Product() {
                 <div className="border-b border-gray-200 py-6">
                   <h3 className="font-medium text-gray-900">Size</h3>
                   <div className="flex flex-wrap gap-2 mt-4">
-                    {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map((size) => (
+                 
                       <button 
-                        key={size}
                         className={`w-10 h-10 flex items-center justify-center border rounded-md text-sm font-medium transition-colors ${
-                          selectedSizes.includes(size) 
-                            ? 'bg-indigo-600 text-white border-indigo-600' 
-                            : 'border-gray-300 hover:bg-gray-100'
+                    
+                            // ? 'bg-indigo-600 text-white border-indigo-600' 
+                           'border-gray-300 hover:bg-gray-100'
                         }`}
-                        onClick={() => handleSizeSelect(size)}
                       >
-                        {size}
+                        Free size
                       </button>
-                    ))}
                   </div>
                 </div>
 
@@ -284,8 +277,8 @@ export default function Product() {
                       onChange={handleSortChange}
                     >
                       <option value="featured">Featured</option>
-                      <option value="price-low-high">Price: Low to High</option>
-                      <option value="price-high-low">Price: High to Low</option>
+                      <option value="price-low-high">Giá: Thấp đến cao</option>
+                      <option value="price-high-low">Giá: Cao đến thấp</option>
                       <option value="newest">Newest Arrivals</option>
                     </select>
                   </div>

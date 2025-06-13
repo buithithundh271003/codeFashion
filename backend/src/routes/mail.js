@@ -29,9 +29,9 @@ router.post('/send-email', async (req, res) => {
     const itemsHtml = cartItems.map(item => `
       <tr>
         <td style="padding: 8px; border: 1px solid #ddd;">${item.product?.title || 'Sản phẩm không xác định'}</td>
-        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${item.quantity || 1}</td>
+        <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${item.quanity || 1}</td>
         <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${(item.price || 0).toLocaleString('vi-VN')}đ</td>
-        <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${((item.price || 0) * (item.quanity || 1)).toLocaleString('vi-VN')}đ</td>
+        <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${((item.price || 0) * (item.quanity)).toLocaleString('vi-VN')}đ</td>
       </tr>
     `).join('');
 

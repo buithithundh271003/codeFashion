@@ -27,7 +27,7 @@ const OrderDetail = () => {
                         
                         <Grid item xs={6}>
                             <div className='flex'>
-                                <img className='w-[6rem] h-[6rem] object-cover object-top' src={item?.product?.imageUrl
+                                <img className='w-[6rem] h-[6rem] object-cover object-top' src={item?.product?.response?.urls?.[0]?.url
                                 } alt="" />
                                 <div className='space-y-2 ml-5'>
                                     <p className='font-semibold'>{item?.product?.title}</p>

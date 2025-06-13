@@ -231,7 +231,9 @@ const OrdersTable = () => {
                       {order?.orderItems?.map((item, index) => (
                         <Avatar 
                           key={index} 
-                          src={item?.product?.imageUrl} 
+                          // src={item?.product?.images[0]?.thumbUrl} 
+                              src={item?.product?.images[0]?.response?.urls?.[0]?.url}
+
                           alt={item?.product?.title}
                         />
                       ))}

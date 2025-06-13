@@ -265,6 +265,8 @@ import CartItemCheckout from '../Cart/CartItemCheckout';
 import { Card, Typography, Divider, Select, Button, Row, Col, message } from 'antd';
 import { getUSer } from '../../../State/Auth/Action';
 import { getCart } from '../../../State/Cart/Action';
+import { API_BASE_URL } from "../../../config/apiConfig"
+
 const { Title, Text } = Typography;
 const { Option } = Select;
 
@@ -329,7 +331,7 @@ const OrderSummary = () => {
       // CK: chuyển hướng đến trang orderpay
       navigate(`/orderpay/?orderId=${orderId}&totalAmount=${Number(totalPrice - totalDiscount)}&userid=${userId}`);
         try {
-      const response = await fetch("http://localhost:4000/api/mail/send-email", {
+      const response = await fetch(`${API_BASE_URL}/api/mail/send-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -434,7 +436,7 @@ const OrderSummary = () => {
                   value={paymentMethod}
                   style={{ width: '100%', marginTop: 8 }}
                 >
-                  <Option value="gh">Giao hàng</Option>
+                  <Option value="gh">Thanh toán khi nhận hàng</Option>
                   <Option value="ck">Chuyển khoản</Option>
                 </Select>
               </div>

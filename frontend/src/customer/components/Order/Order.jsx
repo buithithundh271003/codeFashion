@@ -3,6 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUSer } from '../../../State/Auth/Action';
 import { getOrderUser } from '../../../State/Order/Action';
 import ReturnRequestForm from './refundPage';
+// import { API_BASE_URL } from "../../config/apiConfig"
+import { API_BASE_URL } from "../../../config/apiConfig"
+
+
+
 import { 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
   Paper, Button, Chip, Avatar, Typography 
@@ -29,7 +34,7 @@ const OrderList = () => {
 
   const fetchReturnRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/refund/user', {
+      const response = await axios.get(`${API_BASE_URL}/api/refund/user`, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
       setReturnRequests(response.data?.data || []);
@@ -127,7 +132,7 @@ const OrderList = () => {
                       <TableCell>
                         <div className="flex items-center">
                           <Avatar 
-                            src={item?.product?.images[0].thumbUrl} 
+                            src={item?.product?.images[0]?.response?.urls?.[0]?.url} 
                             alt={item?.product?.title}
                             sx={{ width: 56, height: 56, mr: 2 }}
                             variant="rounded"

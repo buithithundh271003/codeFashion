@@ -5,6 +5,7 @@ import { getOrderUser } from '../../../State/Order/Action';
 import ReturnRequestForm from './refundPage';
 import { Chip, Button } from '@mui/material';
 import axios from 'axios';
+import { API_BASE_URL } from "../../../config/apiConfig"
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const OrderList = () => {
 
   const fetchReturnRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/refund/user', {
+      const response = await axios.get(`${API_BASE_URL}/api/refund/user`, {
         headers: { Authorization: `Bearer ${jwt}` }
       });
       setReturnRequests(response.data.data || []);
